@@ -18,7 +18,9 @@ package controllers
 
 import (
 	"context"
-
+	appsv1 "k8s.io/api/apps/v1"
+	corev1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -38,10 +40,71 @@ type DemoHollicubeReconciler struct {
 // +kubebuilder:rbac:groups=gpaas.hollicube.io,resources=demohollicubes/status,verbs=get;update;patch
 
 func (r *DemoHollicubeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	_ = context.Background()
-	_ = r.Log.WithValues("demohollicube", req.NamespacedName)
+	ctx := context.Background()
+	log := r.Log.WithValues("demohollicube", req.NamespacedName)
 
 	// your logic here
+	// create instance for DemoHollicube
+	demoHollicube := &gpaasv1alpha1.DemoHollicube{}
+	// search resource
+	// 如果没有实例，就返回空结果，这样外部就不再立即调用Reconcile方法
+	if err := r.Get(ctx, req.NamespacedName, demoHollicube); err != nil {
+		if err = client.IgnoreNotFound(err); err == nil {
+			log.Info("no resource found, so go to lifecycle ending")
+			return ctrl.Result{}, nil
+
+		} else {
+			log.Error(err, " resource error happen")
+			return ctrl.Result{}, err
+		}
+	}
+	//get cr
+	log.Info("get a cr ")
+	podLabels := map[string]string{
+		"app": req.Name,
+	}
+	
+	// define  deployment
+	deployment := appsv1.Deployment{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       "Deployment",
+			APIVersion: "apps/v1",
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      req.Name,
+			Namespace: req.Namespace,
+		},
+		Spec: appsv1.DeploymentSpec{
+			Replicas: demoHollicube.Spec.Replicas,
+			Selector: &metav1.LabelSelector{
+				MatchLabels: podLabels,
+			},
+			Template: corev1.PodTemplateSpec{
+				ObjectMeta: metav1.ObjectMeta{
+					Labels: podLabels,
+				},
+				Spec: corev1.PodSpec{
+					Containers: []corev1.Container{
+						{
+							Name:            req.Name,
+							Image:           demoHollicube.Spec.Image,
+							ImagePullPolicy: demoHollicube.Spec.ImagePullPolicy,
+							Ports: []corev1.ContainerPort{
+								{
+									ContainerPort: 80,
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+	
+	if err := r.Create(ctx, &deployment); err != nil {
+		log.Error(err, "Create Deployment resource Error!")
+		return ctrl.Result{}, err
+	}
 
 	return ctrl.Result{}, nil
 }

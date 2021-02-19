@@ -29,7 +29,10 @@ type DemoHollicubeSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	// Foo is an example field of DemoHollicube. Edit DemoHollicube_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	//Foo string `json:"foo,omitempty"`
+	Image string `json:"image"`
+	ImagePullPolicy string `json:"imagePullPolicy"`
+	Replicas *int32 `json:"replicas"`
 }
 
 // DemoHollicubeStatus defines the observed state of DemoHollicube
