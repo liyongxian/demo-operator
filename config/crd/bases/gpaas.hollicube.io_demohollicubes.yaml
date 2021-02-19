@@ -37,9 +37,17 @@ spec:
             containerPort:
               format: int32
               type: integer
+            cpuLimit:
+              type: string
+            cpuRequest:
+              type: string
             image:
               description: Foo is an example field of DemoHollicube. Edit DemoHollicube_types.go
                 to remove/update Foo string `json:"foo,omitempty"`
+              type: string
+            memLimit:
+              type: string
+            memRequest:
               type: string
             protocol:
               type: string
@@ -48,7 +56,11 @@ spec:
               type: integer
           required:
           - containerPort
+          - cpuLimit
+          - cpuRequest
           - image
+          - memLimit
+          - memRequest
           - protocol
           - replicas
           type: object
