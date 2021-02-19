@@ -115,7 +115,7 @@ func (r *DemoHollicubeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 		},
 	}
 	
-	// 建立关联后，删除rc资源时就会将deployment也删除掉
+	// set Ref 
 	log.Info("set reference")
 	if err := controllerutil.SetControllerReference(demoHollicube, deployment, r.Scheme); err != nil {
 		log.Error(err, "SetControllerReference error")
