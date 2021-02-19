@@ -18,6 +18,7 @@ package controllers
 
 import (
 	"context"
+	gpaasv1alpha1 "demo-operator/api/v1alpha1"
 	"github.com/go-logr/logr"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -28,7 +29,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
-	gpaasv1alpha1 "demo-operator/api/v1alpha1"
+	_ "strconv"
 )
 
 // DemoHollicubeReconciler reconciles a DemoHollicube object
@@ -61,7 +62,7 @@ func (r *DemoHollicubeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 			return ctrl.Result{}, err
 		}
 	}
-	
+
 	// get deployment
 	deployment := &appsv1.Deployment{}
 	// get error or get nothing
@@ -188,12 +189,11 @@ func createServiceIfNotExists(ctx context.Context, r *DemoHollicubeReconciler, d
 		Spec: corev1.ServiceSpec{
 			Ports: []corev1.ServicePort{
 				{
-				Name:       "http",
-				Port:       demoHollicube.Spec.ServicePort,
-				NodePort:   demoHollicube.Spec.NodePort,
-				TargetPort: demoHollicube.Spec.ContainerPort,
-				Protocol:   corev1.ProtocolTCP,
-			  },
+					Name:     "http",
+					Port:     demoHollicube.Spec.ServicePort,
+					NodePort: demoHollicube.Spec.NodePort,
+					Protocol: corev1.ProtocolTCP,
+				},
 			},
 			Selector: map[string]string{
 				"app": req.Name,

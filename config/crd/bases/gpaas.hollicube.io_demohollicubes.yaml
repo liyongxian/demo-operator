@@ -49,9 +49,15 @@ spec:
               type: string
             memRequest:
               type: string
+            nodePort:
+              format: int32
+              type: integer
             protocol:
               type: string
             replicas:
+              format: int32
+              type: integer
+            servicePort:
               format: int32
               type: integer
           required:
@@ -61,8 +67,10 @@ spec:
           - image
           - memLimit
           - memRequest
+          - nodePort
           - protocol
           - replicas
+          - servicePort
           type: object
         status:
           description: DemoHollicubeStatus defines the observed state of DemoHollicube
