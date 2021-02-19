@@ -67,7 +67,7 @@ func (r *DemoHollicubeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	}
 
 	// define  deployment
-	deployment := appsv1.Deployment{
+	deployment := &appsv1.Deployment{
 		TypeMeta: metav1.TypeMeta{
 			Kind:       "Deployment",
 			APIVersion: "apps/v1",
@@ -117,12 +117,12 @@ func (r *DemoHollicubeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	
 	// set Ref 
 	log.Info("set reference")
-	if err := controllerutil.SetControllerReference(demoHollicube, &deployment, r.Scheme); err != nil {
+	if err := controllerutil.SetControllerReference(demoHollicube, deployment, r.Scheme); err != nil {
 		log.Error(err, "SetControllerReference error")
 		return ctrl.Result{}, err
 	}
 
-	if err := r.Create(ctx, &deployment); err != nil {
+	if err := r.Create(ctx, deployment); err != nil {
 		log.Error(err, "Create Deployment resource Error!")
 		return ctrl.Result{}, err
 	}
