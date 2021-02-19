@@ -34,6 +34,10 @@ type DemoHollicubeSpec struct {
 	Replicas      *int32 `json:"replicas"`
 	ContainerPort int32  `json:"containerPort"`
 	Protocol      string `json:"protocol"`
+	CPURequest    int32  `json:"cpuRequest"`
+	MEMRequest    int32  `json:"memRequest"`
+	CPULimit       int32 `json:"cpuLimit"`
+	MEMLimit      int32  `json:"memLimit"`
 }
 
 // DemoHollicubeStatus defines the observed state of DemoHollicube

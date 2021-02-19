@@ -22,6 +22,7 @@ import (
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/api/resource"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -94,6 +95,16 @@ func (r *DemoHollicubeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 									Name:          demoHollicube.Spec.Protocol,
 									Protocol:      corev1.ProtocolSCTP,
 									ContainerPort: demoHollicube.Spec.ContainerPort,
+								},
+							},
+							Resources: corev1.ResourceRequirements{
+								Requests: corev1.ResourceList{
+									"cpu":    resource.MustParse(demoHollicube.Spec.CPURequest),
+									"memory": resource.MustParse(demoHollicube.Spec.MEMRequest),
+								},
+								Limits: corev1.ResourceList{
+									"cpu":    resource.MustParse(demoHollicube.Spec.CPULimit),
+									"memory": resource.MustParse(demoHollicube.Spec.MEMLimit),
 								},
 							},
 						},
