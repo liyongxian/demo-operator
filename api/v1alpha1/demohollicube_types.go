@@ -30,8 +30,7 @@ type DemoHollicubeSpec struct {
 
 	// Foo is an example field of DemoHollicube. Edit DemoHollicube_types.go to remove/update
 	//Foo string `json:"foo,omitempty"`
-	Image string `json:"image"`
-	ImagePullPolicy string `json:"imagePullPolicy"`
+	Image    string `json:"image"`
 	Replicas *int32 `json:"replicas"`
 }
 

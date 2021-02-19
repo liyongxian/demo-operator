@@ -18,10 +18,10 @@ package controllers
 
 import (
 	"context"
+	"github.com/go-logr/logr"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -63,7 +63,7 @@ func (r *DemoHollicubeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	podLabels := map[string]string{
 		"app": req.Name,
 	}
-	
+
 	// define  deployment
 	deployment := appsv1.Deployment{
 		TypeMeta: metav1.TypeMeta{
@@ -88,7 +88,7 @@ func (r *DemoHollicubeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 						{
 							Name:            req.Name,
 							Image:           demoHollicube.Spec.Image,
-							ImagePullPolicy: demoHollicube.Spec.ImagePullPolicy,
+							ImagePullPolicy: "IfNotPresent",
 							Ports: []corev1.ContainerPort{
 								{
 									ContainerPort: 80,
@@ -100,7 +100,7 @@ func (r *DemoHollicubeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 			},
 		},
 	}
-	
+
 	if err := r.Create(ctx, &deployment); err != nil {
 		log.Error(err, "Create Deployment resource Error!")
 		return ctrl.Result{}, err
