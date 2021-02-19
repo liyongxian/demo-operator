@@ -30,10 +30,10 @@ type DemoHollicubeSpec struct {
 
 	// Foo is an example field of DemoHollicube. Edit DemoHollicube_types.go to remove/update
 	//Foo string `json:"foo,omitempty"`
-	Image    string `json:"image"`
-	Replicas *int32 `json:"replicas"`
-	ContainerPort *int32 `json:"containerPort"`
-	Protocol string `json:"protocol"`
+	Image         string `json:"image"`
+	Replicas      *int32 `json:"replicas"`
+	ContainerPort int32  `json:"containerPort"`
+	Protocol      string `json:"protocol"`
 }
 
 // DemoHollicubeStatus defines the observed state of DemoHollicube

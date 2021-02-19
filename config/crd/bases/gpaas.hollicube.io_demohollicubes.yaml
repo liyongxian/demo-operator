@@ -34,15 +34,22 @@ spec:
         spec:
           description: DemoHollicubeSpec defines the desired state of DemoHollicube
           properties:
+            containerPort:
+              format: int32
+              type: integer
             image:
-              description: "App Or Service Image"
+              description: Foo is an example field of DemoHollicube. Edit DemoHollicube_types.go
+                to remove/update Foo string `json:"foo,omitempty"`
+              type: string
+            protocol:
               type: string
             replicas:
-              description: "App Or Service Replicas"
               format: int32
               type: integer
           required:
+          - containerPort
           - image
+          - protocol
           - replicas
           type: object
         status:
