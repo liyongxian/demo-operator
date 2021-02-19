@@ -35,10 +35,10 @@ spec:
           description: DemoHollicubeSpec defines the desired state of DemoHollicube
           properties:
             image:
-              description: Foo is an example field of DemoHollicube. Edit DemoHollicube_types.go
-                to remove/update Foo string `json:"foo,omitempty"`
+              description: "App Or Service Image"
               type: string
             replicas:
+              description: "App Or Service Replicas"
               format: int32
               type: integer
           required:
