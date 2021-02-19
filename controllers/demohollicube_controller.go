@@ -117,7 +117,7 @@ func (r *DemoHollicubeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 	
 	// set Ref 
 	log.Info("set reference")
-	if err := controllerutil.SetControllerReference(demoHollicube, deployment, r.Scheme); err != nil {
+	if err := controllerutil.SetControllerReference(demoHollicube, &deployment, r.Scheme); err != nil {
 		log.Error(err, "SetControllerReference error")
 		return ctrl.Result{}, err
 	}
