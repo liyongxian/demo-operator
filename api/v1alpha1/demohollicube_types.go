@@ -32,6 +32,8 @@ type DemoHollicubeSpec struct {
 	//Foo string `json:"foo,omitempty"`
 	Image    string `json:"image"`
 	Replicas *int32 `json:"replicas"`
+	ContainerPort *int32 `json:"containerPort"`
+	Protocol string `json:"protocol"`
 }
 
 // DemoHollicubeStatus defines the observed state of DemoHollicube

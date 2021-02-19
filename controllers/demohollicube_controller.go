@@ -91,7 +91,9 @@ func (r *DemoHollicubeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 							ImagePullPolicy: "IfNotPresent",
 							Ports: []corev1.ContainerPort{
 								{
-									ContainerPort: 80,
+									Name:          demoHollicube.Spec.Protocol,
+									Protocol:      corev1.ProtocolSCTP,
+									ContainerPort: demoHollicube.Spec.ContainerPort,
 								},
 							},
 						},
