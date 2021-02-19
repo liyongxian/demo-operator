@@ -1,0 +1,7 @@
+domain: hollicube.io
+repo: demo-operator
+resources:
+- group: gpaas
+  kind: DemoHollicube
+  version: v1alpha1
+version: "2"

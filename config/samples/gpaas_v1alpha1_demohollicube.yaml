@@ -1,0 +1,7 @@
+apiVersion: gpaas.hollicube.io/v1alpha1
+kind: DemoHollicube
+metadata:
+  name: demohollicube-sample
+spec:
+  # Add fields here
+  foo: bar
