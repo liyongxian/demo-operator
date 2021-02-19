@@ -6,3 +6,10 @@ spec:
   # Add fields here
   image: nginx:1.17
   replicas: 2
+  containerPort: 80
+  cpuRequest: 100m
+  cpuLimit: 200m
+  memRequest: 128Mi
+  memLimit: 256Mi
+  protocol: http
+  
