@@ -76,7 +76,7 @@ func (r *DemoHollicubeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 			}
 
 			// create deployment
-			if err := createDeployment(ctx, r, demoHollicube); err != nil {
+			if err := createDeployment(ctx, r, demoHollicube, req); err != nil {
 				log.Error(err, "create deployment error")
 				return ctrl.Result{}, err
 			}
@@ -92,7 +92,7 @@ func (r *DemoHollicubeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 }
 
 // func  create deployment
-func createDeployment(ctx context.Context, r *DemoHollicubeReconciler, demoHollicube *gpaasv1alpha1.DemoHollicube) error {
+func createDeployment(ctx context.Context, r *DemoHollicubeReconciler, demoHollicube *gpaasv1alpha1.DemoHollicube, req ctrl.Request) error {
 	log := r.Log.WithValues("func", "createDeployment")
 	podLabels := map[string]string{
 		"app": req.Name,
