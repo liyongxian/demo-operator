@@ -25,6 +25,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	gpaasv1alpha1 "demo-operator/api/v1alpha1"
@@ -93,7 +94,7 @@ func (r *DemoHollicubeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 							Ports: []corev1.ContainerPort{
 								{
 									Name:          demoHollicube.Spec.Protocol,
-									Protocol:      corev1.ProtocolSCTP,
+									Protocol:      corev1.ProtocolTCP,
 									ContainerPort: demoHollicube.Spec.ContainerPort,
 								},
 							},
@@ -112,6 +113,13 @@ func (r *DemoHollicubeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, erro
 				},
 			},
 		},
+	}
+	
+	// 建立关联后，删除rc资源时就会将deployment也删除掉
+	log.Info("set reference")
+	if err := controllerutil.SetControllerReference(demoHollicube, deployment, r.Scheme); err != nil {
+		log.Error(err, "SetControllerReference error")
+		return err
 	}
 
 	if err := r.Create(ctx, &deployment); err != nil {
