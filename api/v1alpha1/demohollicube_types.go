@@ -33,6 +33,8 @@ type DemoHollicubeSpec struct {
 	Image         string `json:"image"`
 	Replicas      *int32 `json:"replicas"`
 	ContainerPort int32  `json:"containerPort"`
+	ServicePort   int32  `json:"servicePort"`
+	NodePort      int32  `json:"nodePort"`
 	Protocol      string `json:"protocol"`
 	CPURequest    string `json:"cpuRequest"`
 	MEMRequest    string `json:"memRequest"`
